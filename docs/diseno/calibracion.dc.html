@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Calibración y configuración</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#E8EAED}a:hover{color:#FFFFFF}
+</style>
+</helmet>
+<div style="min-height: 800px; display: flex; flex-direction: column; background: #0B0D10; color: #E8EAED; font-family: Inter, system-ui, sans-serif">
+
+  <header style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 24px; border-bottom: 1px solid #1E2228">
+    <div style="display: flex; align-items: center; gap: 16px; flex-wrap: wrap">
+      <a href="Main.dc.html" style="display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 16px; border-radius: 10px; background: #1A1E24; border: 1px solid #2A2F37; color: #E8EAED; font-size: 14px; text-decoration: none">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg>Volver a manejo</a>
+      <h1 style="margin: 0; font-size: 20px; font-weight: 600">Calibración y configuración</h1>
+    </div>
+    <button type="button" style="min-height: 44px; padding: 0 20px; border-radius: 10px; background: {{accent}}; border: 0; color: #14100C; font-size: 14px; font-weight: 600; cursor: pointer">Guardar en config.toml</button>
+  </header>
+
+  <main style="width: 100%; max-width: 1240px; margin: 0 auto; box-sizing: border-box; padding: 24px; display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start">
+
+    <section style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 18px; background: #121519; border: 1px solid #1E2228; border-radius: 16px; padding: 22px">
+      <div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px">
+        <h2 style="margin: 0; font-size: 16px; font-weight: 600">Entrada</h2>
+        <label style="display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: #9AA0A6">Dispositivo
+          <select defaultValue="volante" style="min-height: 40px; min-width: 240px; background: #0B0D10; color: #E8EAED; border: 1px solid #2A2F37; border-radius: 8px; padding: 0 10px; font: inherit; font-size: 14px">
+            <option value="volante">Volante USB (detectado por SDL)</option>
+            <option value="xbox">Control Xbox</option>
+            <option value="teclado">Teclado</option>
+          </select>
+        </label>
+      </div>
+
+      <sc-for list="{{ejes}}" as="eje" hint-placeholder-count="3">
+        <div style="display: flex; flex-direction: column; gap: 12px; padding: 16px; border: 1px solid #1E2228; border-radius: 12px; background: #0E1114">
+          <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px">
+            <div style="display: flex; align-items: center; gap: 10px">
+              <span style="font-size: 15px; font-weight: 600">{{eje.nombre}}</span>
+              <span style="font-size: 12px; font-family: 'JetBrains Mono', monospace; color: #B8BDC4; border: 1px solid #2A2F37; border-radius: 6px; padding: 2px 8px">{{eje.fuente}}</span>
+            </div>
+            <span style="font-size: 15px; font-family: 'JetBrains Mono', monospace">{{eje.valor}}</span>
+          </div>
+          <div style="position: relative; height: 14px; border-radius: 7px; background: #22262D">
+            <div style="position: absolute; top: 0; height: 14px; border-radius: 7px; left: {{eje.rellenoInicio}}; width: {{eje.rellenoAncho}}; background: {{accent}}"></div>
+            <div style="position: absolute; top: -5px; width: 4px; height: 24px; margin-left: -2px; border-radius: 2px; background: #FFFFFF; left: {{eje.marcador}}"></div>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 11px; font-family: 'JetBrains Mono', monospace; color: #9AA0A6">
+            <span>{{eje.min}}</span><span>{{eje.max}}</span>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; align-items: flex-end; gap: 16px">
+            <label style="display: flex; align-items: center; gap: 8px; min-height: 40px; font-size: 13px"><input type="checkbox" style="width: 18px; height: 18px">Invertir</label>
+            <label style="display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: #9AA0A6">Zona muerta (%)
+              <input type="number" defaultValue="{{eje.zona}}" min="0" max="20" style="width: 90px; min-height: 40px; box-sizing: border-box; background: #0B0D10; color: #E8EAED; border: 1px solid #2A2F37; border-radius: 8px; padding: 0 10px; font: inherit; font-size: 14px">
+            </label>
+            <label style="display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: #9AA0A6">Curva
+              <select defaultValue="{{eje.curva}}" style="min-height: 40px; background: #0B0D10; color: #E8EAED; border: 1px solid #2A2F37; border-radius: 8px; padding: 0 10px; font: inherit; font-size: 14px">
+                <option value="lineal">Lineal</option>
+                <option value="suave">Exponencial suave</option>
+                <option value="fuerte">Exponencial fuerte</option>
+              </select>
+            </label>
+            <button type="button" style="min-height: 40px; padding: 0 14px; border-radius: 8px; background: #1A1E24; border: 1px solid #2A2F37; color: #E8EAED; font: inherit; font-size: 13px; cursor: pointer">Calibrar rango</button>
+          </div>
+        </div>
+      </sc-for>
+
+      <div style="display: flex; flex-direction: column; gap: 10px">
+        <h3 style="margin: 0; font-size: 14px; font-weight: 600">Botones</h3>
+        <sc-for list="{{botones}}" as="b" hint-placeholder-count="4">
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 12px; border: 1px solid #1E2228; border-radius: 10px">
+            <span style="font-size: 14px">{{b.accion}}</span>
+            <div style="display: flex; align-items: center; gap: 10px">
+              <span style="font-size: 12px; font-family: 'JetBrains Mono', monospace; color: #B8BDC4">{{b.entrada}}</span>
+              <button type="button" style="min-height: 36px; padding: 0 12px; border-radius: 8px; background: #1A1E24; border: 1px solid #2A2F37; color: #E8EAED; font: inherit; font-size: 13px; cursor: pointer">Reasignar</button>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <div style="flex: 1 1 340px; min-width: 0; display: flex; flex-direction: column; gap: 20px">
+      <section style="display: flex; flex-direction: column; gap: 14px; background: #121519; border: 1px solid #1E2228; border-radius: 16px; padding: 22px">
+        <h2 style="margin: 0; font-size: 16px; font-weight: 600">Red</h2>
+        <label style="display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: #9AA0A6">Host del carrito
+          <input type="text" defaultValue="carrito.local" style="min-height: 40px; box-sizing: border-box; background: #0B0D10; color: #E8EAED; border: 1px solid #2A2F37; border-radius: 8px; padding: 0 10px; font-family: 'JetBrains Mono', monospace; font-size: 14px">
+        </label>
+        <label style="display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: #9AA0A6">Puerto UDP
+          <input type="number" defaultValue="4210" style="min-height: 40px; box-sizing: border-box; background: #0B0D10; color: #E8EAED; border: 1px solid #2A2F37; border-radius: 8px; padding: 0 10px; font-family: 'JetBrains Mono', monospace; font-size: 14px">
+        </label>
+        <label style="display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: #9AA0A6">URL del video
+          <input type="text" defaultValue="http://camara.local:81/stream" style="min-height: 40px; box-sizing: border-box; background: #0B0D10; color: #E8EAED; border: 1px solid #2A2F37; border-radius: 8px; padding: 0 10px; font-family: 'JetBrains Mono', monospace; font-size: 14px">
+        </label>
+        <label style="display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: #9AA0A6">Frecuencia de envío
+          <select defaultValue="50" style="min-height: 40px; background: #0B0D10; color: #E8EAED; border: 1px solid #2A2F37; border-radius: 8px; padding: 0 10px; font: inherit; font-size: 14px">
+            <option value="30">30 Hz</option>
+            <option value="50">50 Hz</option>
+            <option value="100">100 Hz</option>
+          </select>
+        </label>
+        <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px">
+          <button type="button" style="min-height: 40px; padding: 0 14px; border-radius: 8px; background: #1A1E24; border: 1px solid #2A2F37; color: #E8EAED; font: inherit; font-size: 13px; cursor: pointer">Probar conexión</button>
+          <span style="display: flex; align-items: center; gap: 6px; font-size: 13px; color: #B8BDC4"><span style="width: 8px; height: 8px; border-radius: 50%; background: #3DD68C"></span>Respondió en 6 ms</span>
+        </div>
+      </section>
+
+      <section style="display: flex; flex-direction: column; gap: 14px; background: #121519; border: 1px solid #1E2228; border-radius: 16px; padding: 22px">
+        <h2 style="margin: 0; font-size: 16px; font-weight: 600">Seguridad</h2>
+        <label style="display: flex; flex-direction: column; gap: 8px; font-size: 12px; color: #9AA0A6">
+          <span style="display: flex; justify-content: space-between">Límite de velocidad<span style="font-family: 'JetBrains Mono', monospace; color: #E8EAED">70 %</span></span>
+          <input type="range" min="10" max="100" defaultValue="70" style="width: 100%; accent-color: {{accent}}">
+        </label>
+        <label style="display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: #9AA0A6">Timeout del watchdog (ms)
+          <input type="number" defaultValue="250" style="min-height: 40px; box-sizing: border-box; background: #0B0D10; color: #E8EAED; border: 1px solid #2A2F37; border-radius: 8px; padding: 0 10px; font-family: 'JetBrains Mono', monospace; font-size: 14px">
+        </label>
+        <span style="font-size: 12px; color: #9AA0A6; line-height: 1.5">El límite y el timeout se envían al carrito al conectar y quedan guardados en su memoria.</span>
+      </section>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#FF8A3D","options":["#FF8A3D","#4EA8FF","#F5C542"]},"$preview":{"width":1280,"height":800}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      accent: this.props.accent ?? '#FF8A3D',
+      ejes: [
+        { nombre: 'Dirección', fuente: 'Eje 0', valor: '+18 %', rellenoInicio: '50%', rellenoAncho: '9%', marcador: '59%', min: '-100 %', max: '+100 %', zona: 3, curva: 'suave' },
+        { nombre: 'Acelerador', fuente: 'Eje 2', valor: '64 %', rellenoInicio: '0%', rellenoAncho: '64%', marcador: '64%', min: '0 %', max: '100 %', zona: 2, curva: 'lineal' },
+        { nombre: 'Freno', fuente: 'Eje 3', valor: '0 %', rellenoInicio: '0%', rellenoAncho: '0%', marcador: '0%', min: '0 %', max: '100 %', zona: 2, curva: 'lineal' }
+      ],
+      botones: [
+        { accion: 'Luces', entrada: 'Botón 4' },
+        { accion: 'Claxon', entrada: 'Botón 5' },
+        { accion: 'Turbo', entrada: 'Botón 6' },
+        { accion: 'Reversa', entrada: 'Paleta izquierda' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

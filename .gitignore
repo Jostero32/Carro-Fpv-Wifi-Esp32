@@ -1,0 +1,12 @@
+# Configuración local con credenciales
+firmware/*/config.h
+pc/config.toml
+
+# Python
+.venv/
+__pycache__/
+.pytest_cache/
+
+# Salidas de compilación
+dist/
+build/

@@ -1,0 +1,67 @@
+# Copiar a config.toml en esta misma carpeta y ajustar los valores.
+# Guardar desde la interfaz reescribe config.toml y quita estos comentarios.
+
+[carrito]
+host = "carrito.local"
+port = 4210
+
+[control]
+command_hz = 50
+ping_interval_s = 1.0
+
+[camara]
+url = "http://camara.local:81/stream"
+# Grados en sentido horario: 0, 90, 180 o 270.
+rotacion = 0
+espejo = false
+
+[entrada]
+# volante, xbox o teclado
+dispositivo = "volante"
+
+# zona_muerta va en %, curva es lineal, suave o fuerte.
+# min y max son lecturas crudas de -1 a 1. Se llenan con "Calibrar rango" o --calibrar.
+[ejes.direccion]
+indice = 0
+invertir = false
+zona_muerta = 3
+curva = "suave"
+min = -1.0
+max = 1.0
+
+[ejes.acelerador]
+indice = 2
+invertir = false
+zona_muerta = 2
+curva = "lineal"
+min = -1.0
+max = 1.0
+
+[ejes.freno]
+indice = 3
+invertir = false
+zona_muerta = 2
+curva = "lineal"
+min = -1.0
+max = 1.0
+
+# Índices de botón del joystick. Reversa actúa mientras se mantiene presionado.
+[botones]
+luces = 4
+claxon = 5
+turbo = 6
+reversa = 7
+
+[seguridad]
+# Tope de acelerador en %, aplicado en la PC a cada comando.
+limite_velocidad = 70
+# Si la lectura de la entrada se congela este tiempo, la PC manda neutro.
+watchdog_ms = 250
+
+# Voltaje de la batería vacía y llena, para calcular el %. Por defecto, 2S.
+[bateria]
+mv_vacia = 6400
+mv_llena = 8400
+
+[interfaz]
+acento = "#FF8A3D"
