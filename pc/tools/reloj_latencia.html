@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reloj de latencia</title>
+<style>
+  :root { color-scheme: light; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    background: #fff;
+    color: #000;
+    font-family: Consolas, "Courier New", monospace;
+  }
+  #clock { font-size: min(22vw, 40vh); font-weight: 700; letter-spacing: 0.02em; }
+  p { font-family: system-ui, sans-serif; font-size: 16px; margin: 0 16px; text-align: center; }
+</style>
+</head>
+<body>
+<main>
+  <div id="clock">00000</div>
+  <p>Apunta la cámara a este número y pon la app al lado. La diferencia entre este número y el que se ve en el video es la latencia en ms.</p>
+</main>
+<script>
+  // Milisegundos de 0 a 99999: alcanza para restar sin confundir vueltas.
+  const clock = document.getElementById("clock");
+  function draw() {
+    clock.textContent = String(Math.floor(performance.now()) % 100000).padStart(5, "0");
+    requestAnimationFrame(draw);
+  }
+  requestAnimationFrame(draw);
+</script>
+</body>
+</html>

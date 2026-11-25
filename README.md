@@ -11,6 +11,36 @@ Carro RC en primera persona (FPV) controlado por WiFi desde la PC. Un ESP32 mane
 
 Latencia medida en una red doméstica: unos 5 ms de ida y vuelta para los comandos con la dirección quieta y 15 ms de mediana mientras gira. Ver [Medir latencia](#medir-latencia).
 
+| Vista de manejo | Calibración y configuración |
+|---|---|
+| ![Vista de manejo](docs/img/app-manejo.png) | ![Calibración](docs/img/app-calibracion.png) |
+
+<sub>Capturas de la app en [modo simulado](#interfaz-en-modo-simulado): el video y los datos son de prueba.</sub>
+
+## Arquitectura
+
+```mermaid
+flowchart LR
+    subgraph PC["PC con Windows · app carrito-pc (Python 3.12)"]
+        IN["Volante · DualSense ·<br/>Xbox · teclado"] --> APP["Lazo de control<br/>curvas, zona muerta,<br/>freno → reversa"]
+        UI["Interfaz web<br/>(pywebview · WebView2)"]
+        APP <--> UI
+    end
+    subgraph CARRO["Carro"]
+        C["ESP32 DevKit<br/>firmware/carrito"] --> L["L298N"] --> M["2 motores DC"]
+        C --> S["Servo de dirección"]
+        CAM["ESP32-CAM<br/>firmware/camara"]
+    end
+    APP -->|"UDP :4210 · 50 Hz<br/>acelerador, dirección, luces"| C
+    C -->|"UDP · telemetría 10 Hz<br/>batería, RSSI, failsafe"| APP
+    CAM -->|"HTTP :81 · MJPEG<br/>480x320 ~25 fps"| UI
+    UI -.->|"/status cada 2 s"| CAM
+```
+
+- **Failsafe:** sin un comando válido en 300 ms, el carro se detiene y centra la dirección.
+- El protocolo UDP está especificado en [`docs/protocolo.md`](docs/protocolo.md) y es la fuente de verdad
+  para el firmware y para Python.
+
 ## Materiales
 
 | Pieza | Uso |
@@ -28,6 +58,8 @@ Latencia medida en una red doméstica: unos 5 ms de ida y vuelta para los comand
 ## Conexiones
 
 ### Carro (ESP32 DevKit V1)
+
+![Esquema de conexiones del carro](docs/esquema-conexiones.svg)
 
 | ESP32 | Va a | Nota |
 |---|---|---|

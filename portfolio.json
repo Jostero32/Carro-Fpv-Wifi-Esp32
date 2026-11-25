@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "titulo": "Carro FPV Wi-Fi con ESP32",
+  "resumen": "Carro RC en primera persona controlado desde la PC con volante o control: comandos UDP a 50 Hz con failsafe, video MJPEG desde una ESP32-CAM y app de escritorio con telemetría y calibración.",
+  "categorias": ["iot", "embebidos", "escritorio"],
+  "stack": ["ESP32", "ESP32-CAM", "C++", "Arduino", "Python", "pywebview", "UDP", "MJPEG"],
+  "estado": "Funcional",
+  "destacado": true,
+  "anio": 2026,
+  "rol": "Diseño y desarrollo completo: firmware, protocolo y app",
+  "portada": "docs/img/app-manejo.png",
+  "capturas": ["docs/img/app-manejo.png", "docs/img/app-calibracion.png", "docs/esquema-conexiones.svg"],
+  "aspectos": [
+    "Protocolo UDP binario propio con CRC8 y failsafe de 300 ms",
+    "Latencia de comandos de ~5 ms (ida y vuelta) medida en red doméstica",
+    "Volante Logitech G29, DualSense, Xbox o teclado con calibración de ejes",
+    "Firmware por OTA y reconexión automática del video"
+  ],
+  "demo": null
+}
